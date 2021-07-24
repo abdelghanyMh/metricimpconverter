@@ -8,7 +8,7 @@ function checkDiv(possibleFraction) {
 
 function ConvertHandler() {
     const units = {
-            'l': 'liters',
+            'L': 'liters',
             'gal': 'gallons ',
             'km': 'kilometers',
             'mi': 'miles',
@@ -46,6 +46,10 @@ function ConvertHandler() {
 
         // remove All  Numbers and symbols
         let result = newinput.replace(/[^a-zA-Z]/g, '');
+        result = result.toLowerCase();
+
+        if (result == 'l')
+            result = result.toUpperCase();
 
         return units[result] === undefined ? undefined : result;
     };
@@ -53,7 +57,7 @@ function ConvertHandler() {
     this.getReturnUnit = function(initUnit) {
         let result;
         if (initUnit == 'gal')
-            result = 'l';
+            result = 'L';
         else if (initUnit == 'L')
             result = 'gal';
         else if (initUnit == 'lbs')
@@ -84,18 +88,18 @@ function ConvertHandler() {
 
         if (initUnit == 'gal')
             result = initNum * galToL; // gallons to liters
-        else if (initUnit == 'l')
+        else if (initUnit == 'L')
             result = initNum / galToL; // liters to gallons
         else if (initUnit == 'lbs')
-            result = initNum / lbsToKg; // pounds to kilograms
+            result = initNum * lbsToKg; // pounds to kilograms
         else if (initUnit == 'kg')
-            result = initNum * lbsToKg; // kilograms to pounds
+            result = initNum / lbsToKg; // kilograms to pounds
         else if (initUnit == 'mi')
             result = initNum * miToKm; // miles to kilometers
         else if (initUnit == 'km')
             result = initNum / miToKm; // kilometers to miles
 
-        return result.toFixed(6);
+        return parseFloat(result.toFixed(5));
     };
 
     this.getString = function(initNum, initUnit, returnNum, returnUnit) {

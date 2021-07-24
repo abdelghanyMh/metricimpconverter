@@ -18,7 +18,7 @@ module.exports = function(app) {
             res.send('invalid unit')
         else if (initNum === undefined)
             res.send('invalid number');
-        let returnNum = convertHandler.convert(initNum, initUnit.toLowerCase());
+        let returnNum = convertHandler.convert(initNum, initUnit);
         let returnUnit = convertHandler.getReturnUnit(initUnit);
 
         res.json({
