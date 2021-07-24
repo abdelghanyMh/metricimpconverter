@@ -1,3 +1,11 @@
+function checkDiv(possibleFraction) {
+    let nums = possibleFraction.split("/");
+    if (nums.length > 2) { // 1//2 ['1','','2']
+        return false;
+    }
+    return nums;
+}
+
 function ConvertHandler() {
     const units = {
             'l': 'liters',
@@ -13,35 +21,49 @@ function ConvertHandler() {
     this.getNum = function(input) {
         //  remove spaces from input
         let newinput = this.removeSpace(input)
-            // remove All  lettters
-        let result = newinput.replace(/[a-zA-Z]/g, ''); // 4gal return 4
-        return result === '' ? 1 : result; // input = km return 1 
+
+        // remove All  lettters
+        let result = newinput.replace(/[^.\d/]/g, '') || '1'; // 4gal return 4
+
+        let nums = checkDiv(result);
+        if (!nums) {
+            return undefined;
+        }
+        let num1 = nums[0];
+        let num2 = nums[1] || "1";
+        result =
+            parseFloat(num1) / parseFloat(num2);
+        if (isNaN(num1) || isNaN(num2)) {
+            return undefined;
+        }
+        return result;
+
     };
 
     this.getUnit = function(input) {
         //  remove spaces from input
         let newinput = this.removeSpace(input)
 
-        // remove All  Numbers
-        let result = newinput.replace(/\d/g, '');
+        // remove All  Numbers and symbols
+        let result = newinput.replace(/[^a-zA-Z]/g, '');
 
-        return result;
+        return units[result] === undefined ? undefined : result;
     };
 
     this.getReturnUnit = function(initUnit) {
         let result;
         if (initUnit == 'gal')
-            result = 'l'; // gallons to liters
-        else if (initUnit == 'l')
-            result = 'gal'; // liters to gallons
+            result = 'l';
+        else if (initUnit == 'L')
+            result = 'gal';
         else if (initUnit == 'lbs')
-            result = 'kg'; // pounds to kilograms
+            result = 'kg';
         else if (initUnit == 'kg')
-            result = 'lbs'; // kilograms to pounds
+            result = 'lbs';
         else if (initUnit == 'mi')
-            result = 'km'; // miles to kilometers
+            result = 'km';
         else if (initUnit == 'km')
-            result = 'mi'; // kilometers to miles
+            result = 'mi';
 
 
 

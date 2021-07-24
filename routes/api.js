@@ -13,11 +13,11 @@ module.exports = function(app) {
 
         // handel invalid input
         if (initUnit === undefined && initNum === undefined)
-            res.send('invalid Number And Unit values ! ');
+            res.send('invalid number and unit');
         else if (initUnit === undefined)
-            res.send('invalid unit value!')
+            res.send('invalid unit')
         else if (initNum === undefined)
-            res.send('invalid Number value!');
+            res.send('invalid number');
         let returnNum = convertHandler.convert(initNum, initUnit.toLowerCase());
         let returnUnit = convertHandler.getReturnUnit(initUnit);
 
